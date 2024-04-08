@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Projeto - Cadastro</title>
+    <script>
+      function validarFormulario() {
+        var nomeCompleto = document.getElementById("nome").value;
+        var email = document.getElementById("email").value;
+        var telefone = document.getElementById("telefone").value;
+
+        if (nomeCompleto === "" || email === "" || telefone === "") {
+          alert("Por favor, preencha todos os campos obrigatórios.");
+          return false;
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Cadastro</h1>
+    <form method="POST" action="/" onsubmit="return validarFormulario()">
+      <label for="nome">Nome completo:</label>
+      <input type="text" id="nome" name="nome" required /><br /><br />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required /><br /><br />
+
+      <label for="telefone">Telefone:</label>
+      <input type="text" id="telefone" name="telefone" required /><br /><br />
+
+      <label for="eh_entregador">É entregador?</label>
+      <input
+        type="checkbox"
+        id="eh_entregador"
+        name="eh_entregador"
+      /><br /><br />
+
+      <input type="submit" value="Enviar" />
+    </form>
+  </body>
+</html>

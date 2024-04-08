@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Editar Usuário</title>
+  </head>
+  <body>
+    <h1>Editar Usuário</h1>
+    <form method="POST" action="/editar/{{ user.id }}">
+      <label for="nome">Nome:</label>
+      <input type="text" name="nome" value="{{ user.nome }}" required />
+      <br />
+      <label for="email">Email:</label>
+      <input type="email" name="email" value="{{ user.email }}" required />
+      <br />
+      <label for="telefone">Telefone:</label>
+      <input type="text" name="telefone" value="{{ user.telefone }}" required />
+      <br />
+      <label for="eh_entregador">É Entregador?</label>
+      <input
+        type="checkbox"
+        name="eh_entregador"
+        {%
+        if
+        user.eh_entregador
+        %}checked{%
+        endif
+        %}
+      />
+      <br />
+      <button type="submit">Salvar</button>
+      <a href="/consulta"><button type="button">Cancelar</button></a>
+    </form>
+    <!-- consulta.html e editar.html -->
+    <form method="GET" action="/logout">
+      <button type="submit">Logout</button>
+    </form>
+  </body>
+</html>
