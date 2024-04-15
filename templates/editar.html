@@ -1,38 +1,102 @@
-<!DOCTYPE html>
-<html>
+<html lang="pt-BR">
   <head>
-    <title>Editar Usuário</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projeto - Cadastro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: black; /* Adicionando o fundo preto */
+        color: white; /* Alterando a cor do texto para branco */
+      }
+      label {
+        font-weight: bold;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="submit"],
+      input[type="checkbox"] {
+        padding: 8px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        border: 1px solid #000000;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      input[type="submit"],
+      button {
+        background-color: #ff6600;
+        color: rgb(0, 0, 0);
+        cursor: pointer;
+      }
+      input[type="submit"]:hover,
+      button:hover {
+        background-color: #ff5100;
+      }
+      h1 {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      img {
+        width: 50px; /* ajuste o tamanho conforme necessário */
+        margin-right: 10px;
+      }
+    </style>
   </head>
   <body>
-    <h1>Editar Usuário</h1>
-    <form method="POST" action="/editar/{{ user.id }}">
-      <label for="nome">Nome:</label>
-      <input type="text" name="nome" value="{{ user.nome }}" required />
-      <br />
+    <h1>
+      <img src="./entregador.png" alt="Entrega Mais Logo" /> CADASTRE-SE EM
+      NOSSO SITE
+    </h1>
+    <form method="POST" action="/" onsubmit="return validarFormulario()">
+      <label for="nome">Nome completo:</label>
+      <input type="text" id="nome" name="nome" required /><br /><br />
+
       <label for="email">Email:</label>
-      <input type="email" name="email" value="{{ user.email }}" required />
-      <br />
+      <input type="email" id="email" name="email" required /><br /><br />
+
       <label for="telefone">Telefone:</label>
-      <input type="text" name="telefone" value="{{ user.telefone }}" required />
-      <br />
-      <label for="eh_entregador">É Entregador?</label>
       <input
-        type="checkbox"
-        name="eh_entregador"
-        {%
-        if
-        user.eh_entregador
-        %}checked{%
-        endif
-        %}
-      />
-      <br />
-      <button type="submit">Salvar</button>
-      <a href="/consulta"><button type="button">Cancelar</button></a>
+        type="tel"
+        id="telefone"
+        name="telefone"
+        pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}"
+        placeholder="(11) 8563-5412"
+        required
+      /><br /><br />
+
+      <label for="eh_entregador">Selecione se é entregador:</label><br />
+      <button type="button" id="botaoEntregador" onclick="marcarEntregador()">
+        Entregador</button
+      ><br /><br />
+
+      <input type="hidden" id="eh_entregador" name="eh_entregador" />
+      <!-- campo oculto para envio do formulário -->
+
+      <input type="submit" value="Enviar" />
     </form>
-    <!-- consulta.html e editar.html -->
-    <form method="GET" action="/logout">
-      <button type="submit">Logout</button>
-    </form>
+
+    <script>
+      function validarFormulario() {
+        var nomeCompleto = document.getElementById("nome").value;
+        var email = document.getElementById("email").value;
+        var telefone = document.getElementById("telefone").value;
+
+        if (nomeCompleto === "" || email === "" || telefone === "") {
+          alert("Por favor, preencha todos os campos obrigatórios.");
+          return false;
+        }
+      }
+
+      function marcarEntregador() {
+        var checkbox = document.getElementById("eh_entregador");
+        var botao = document.getElementById("botaoEntregador");
+
+        checkbox.checked = !checkbox.checked; // alternar estado do checkbox
+        botao.classList.toggle("selecionado"); // alternar classe para estilização
+      }
+    </script>
   </body>
 </html>
