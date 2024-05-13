@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro Entrega Mais</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: rgb(106, 182, 182);
+  
+    }
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: rgba(224, 224, 35, 0.473);
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #007bff;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    form {
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="email"] {
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #111111;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button[type="submit"]:hover {
+      background-color: #0e4fa3;
+    }
+    .checkbox-label {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: #0e0d0d;
+    }
+    .tabs {
+      overflow: hidden;
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 20px;
+    }
+    .tab {
+      float: left;
+      width: 33.33%;
+    }
+    .tab button {
+      display: block;
+      background-color: inherit;
+      color: #555;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 10px 20px;
+      transition: 0.3s;
+      width: 100%;
+    }
+    .tab button.active {
+      background-color: #ddd;
+    }
+    .tabcontent {
+      display: none;
+      padding: 20px;
+      border-top: none;
+    }
+    .tabcontent.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cadastro - Entrega Mais</h1>
+    <div class="tabs">
+      <div class="tab">
+        <button class="tablinks active" onclick="openTab(event, 'cadastro_entregador')">Entregador</button>
+      </div>
+      <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'cadastro_cliente')">Cliente</button>
+      </div>
+      <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'ja_cadastrado')">Já Cadastrado</button>
+      </div>
+    </div>
+    
+    <form id="cadastro_entregador" class="tabcontent active" method="POST" action="/cadastro">
+      <label for="login">Login:</label>
+      <input type="text" name="login" required>
+      <label for="senha">Senha:</label>
+      <input type="password" name="senha" required>
+      <label for="nome">Nome Completo:</label>
+      <input type="text" name="nome" required>
+      <label for="telefone">Telefone:</label>
+      <input type="tel" name="telefone" required>
+      <label for="email">E-mail:</label>
+      <input type="email" name="email" required>
+      <input type="hidden" name="tipo" value="entregador">
+      <button type="submit">Cadastrar</button>
+    </form>
+    <form id="cadastro_cliente" class="tabcontent" method="POST" action="/cadastro">
+      <label for="login">Login:</label>
+      <input type="text" name="login" required>
+      <label for="senha">Senha:</label>
+      <input type="password" name="senha" required>
+      <label for="nome">Nome Completo:</label>
+      <input type="text" name="nome" required>
+      <label for="telefone">Telefone:</label>
+      <input type="tel" name="telefone" required>
+      <label for="email">E-mail:</label>
+      <input type="email" name="email" required>
+      <input type="hidden" name="tipo" value="cliente">
+      <button type="submit">Cadastrar</button>
+    </form>
+    <div id="ja_cadastrado" class="tabcontent">
+      <form method="POST" action="/login">
+        <label for="login_existente">Login:</label>
+        <input type="text" name="login_existente" required>
+        <label for="senha_existente">Senha:</label>
+        <input type="password" name="senha_existente" required>
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openTab(evt, tabName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+    document.getElementById("cadastro_entregador").style.display = "block";
+  </script>
+</body>
+</html>
