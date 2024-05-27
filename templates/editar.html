@@ -1,8 +1,7 @@
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projeto - Cadastro</title>
+    <title>Cadastro</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -28,6 +27,7 @@
         background-color: #ff6600;
         color: rgb(0, 0, 0);
         cursor: pointer;
+        padding: 30px 0px;
       }
       input[type="submit"]:hover,
       button:hover {
@@ -42,6 +42,39 @@
       img {
         width: 50px;
         margin-right: 10px;
+      }
+    </style>
+    <style>
+      .entregador-label {
+        display: inline-block;
+        background-color: #f1f1f1a9;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 20px 0 20px 0;
+      }
+      .entregador-label input[type="radio"] {
+        display: none;
+      }
+      .entregador-label input[type="radio"] + label {
+        display: inline-block;
+        padding: 5px 50px;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+      .entregador-label input[type="radio"] + label:hover {
+        background-color: #eccbbe8a;
+      }
+      .entregador-label input[type="radio"]:checked + label {
+        background-color: #ff6600;
+      }
+      #telefone {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 8px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        border: 1px solid #000000;
+        box-sizing: border-box;
       }
     </style>
   </head>
@@ -70,32 +103,33 @@
         pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}"
         placeholder="(11) 8563-5412"
         required
-        oninput="formatarTelefone()"
       /><br /><br />
 
-      <label for="eh_entregador">Selecione se é entregador:</label><br />
-      <button type="button" id="botaoEntregador" onclick="marcarEntregador()">
-        Entregador</button
-      ><br /><br />
-
-      <input type="hidden" id="eh_entregador" name="eh_entregador" />
-      <!-- campo oculto para envio do formulário -->
+      <label for="eh_entregador">É entregador?</label>
+      <div class="entregador-label">
+        <input type="radio" id="sim" name="entregador" value="sim" />
+        <label for="sim">Sim</label>
+      </div>
+      <div class="entregador-label">
+        <input type="radio" id="nao" name="entregador" value="nao" checked />
+        <label for="nao">Não</label>
+      </div>
+      <br />
 
       <input type="submit" value="Enviar" />
     </form>
 
     <script>
       var telefoneInput = document.getElementById("telefone");
-      var telefoneAnterior = ""; // Variável para armazenar o valor anterior do telefone
+      var telefoneAnterior = "";
 
       telefoneInput.addEventListener("input", function () {
         var telefone = telefoneInput.value;
         var formattedTelefone = formatarTelefone(telefone);
         telefoneInput.value = formattedTelefone;
 
-        // Verifica se um caractere especial foi removido
         if (telefoneAnterior.length > telefone.length) {
-          telefoneInput.value = telefone.slice(0, telefone.length - 1); // Remove o último caractere digitado
+          telefoneInput.value = telefone.slice(0, telefone.length - 1);
           telefoneAnterior = telefoneInput.value;
         } else {
           telefoneAnterior = telefoneInput.value;
@@ -103,7 +137,7 @@
       });
 
       function formatarTelefone(telefone) {
-        var numeroLimpo = telefone.replace(/\D/g, ""); // Remove todos os não dígitos
+        var numeroLimpo = telefone.replace(/\D/g, "");
         var formattedTelefone = "";
 
         if (numeroLimpo.length > 0) {
@@ -118,6 +152,21 @@
 
         return formattedTelefone;
       }
+
+      var entregadorSim = document.getElementById("sim");
+      var entregadorNao = document.getElementById("nao");
+
+      entregadorSim.addEventListener("change", function () {
+        if (entregadorSim.checked) {
+          entregadorNao.checked = false;
+        }
+      });
+
+      entregadorNao.addEventListener("change", function () {
+        if (entregadorNao.checked) {
+          entregadorSim.checked = false;
+        }
+      });
 
       function validarFormulario() {
         var nomeCompleto = document.getElementById("nome").value;
@@ -135,14 +184,6 @@
           );
           return false;
         }
-      }
-
-      function marcarEntregador() {
-        var checkbox = document.getElementById("eh_entregador");
-        var botao = document.getElementById("botaoEntregador");
-
-        checkbox.checked = !checkbox.checked; // alternar estado do checkbox
-        botao.classList.toggle("selecionado"); // alternar classe para estilização
       }
     </script>
   </body>
