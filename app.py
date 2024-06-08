@@ -1,69 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from sqlalchemy import create_engine, Column, String, Boolean
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-import uuid
+from db_functions import get_all_users, insert_user, update_user, get_user, delete_user
 
 app = Flask(__name__)
 app.secret_key = 'admin'
-
-# Configurações do banco de dados
-engine = create_engine('sqlite:///usuarios.db')
-Base = declarative_base()
-
-# Definição da tabela de usuários
-class Usuario(Base):
-    __tablename__ = 'usuarios'
-    id = Column(String, primary_key=True)
-    nome = Column(String)
-    email = Column(String)
-    telefone = Column(String)
-    eh_entregador = Column(Boolean)
-
-# Criação do banco de dados
-Base.metadata.create_all(engine)
-
-# Funções do banco de dados
-def get_session():
-    Session = sessionmaker(bind=engine)
-    return Session()
-
-def get_all_users():
-    session = get_session()
-    users = session.query(Usuario).all()
-    session.close()
-    return users
-
-def insert_user(nome, email, telefone, eh_entregador):
-    session = get_session()
-    id = str(uuid.uuid4())
-    user = Usuario(id=id, nome=nome, email=email, telefone=telefone, eh_entregador=eh_entregador)
-    session.add(user)
-    session.commit()
-    session.close()
-
-def update_user(id, nome, email, telefone, eh_entregador):
-    session = get_session()
-    user = session.query(Usuario).filter_by(id=id).first()
-    user.nome = nome
-    user.email = email
-    user.telefone = telefone
-    user.eh_entregador = eh_entregador
-    session.commit()
-    session.close()
-
-def get_user(id):
-    session = get_session()
-    user = session.query(Usuario).filter_by(id=id).first()
-    session.close()
-    return user
-
-def delete_user(id):
-    session = get_session()
-    user = session.query(Usuario).filter_by(id=id).first()
-    session.delete(user)
-    session.commit()
-    session.close()
 
 def check_authentication():
     if 'username' not in session or 'password' not in session:
@@ -141,4 +80,3 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
